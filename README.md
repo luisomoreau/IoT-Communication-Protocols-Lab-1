@@ -19,6 +19,13 @@ Please see the previous lab for more information on how to use this microcontrol
 
 ### Grades
 
+Where you will see:
+
+✏️  **Step X: For the graded part, take a screenshot, a picture or save your code**
+
+Please, add the screenshot or your code under the `/graded-assignement` folder.
+Name your screenshot, your picture or your code folder with the step number.
+Example: `graded-assignement/screenshots/step1.png` 
 
 ### Prerequisites
 
@@ -61,6 +68,8 @@ Other valid examples for topics could be:
 
 ## Get started with Scaleway IoT Hub
 
+### Join the Classroom organisation
+
 By now, you should have receive an invitation by email to join the Scaleway's `Classroom` Organization:
 
 ![Scaleway Invitation](assets/scaleway-invitation.png)
@@ -68,6 +77,8 @@ By now, you should have receive an invitation by email to join the Scaleway's `C
 Accept the invitation, you will be redirected to the [Scaleway Console](https://console.scaleway.com/):
 
 ![Scaleway Console](assets/scaleway-console.png)
+
+### Create an IoT Hub
 
 Go to the [IoT Hub](https://console.scaleway.com/iot-hub/hubs) tab:
 
@@ -81,7 +92,33 @@ Click on `create`, your hub will be ready in few seconds:
 
 ![Scaleway IoT Hub Ready](assets/scaleway-iot-hub-ready.png)
 
+✏️  **Step 1: For the graded part, take a screenshot here of your hub**
 
+### Add a device
+
+Once your hub is created, you should see the following screen:
+
+![Hub info](assets/hub-info.png)
+
+Navigate to the Device tab:
+
+![add-device](assets/add-device.png)
+
+Click on `Add Devices`:
+
+![create-device](assets/create-device.png)
+
+Before validating, choose the `Deny Insecure` option, we won't use devices certificates in the tutorial.
+
+![new-device-overview](assets/new-device-overview.png)
+
+To check your device information, just click on its name, you should see the following screen:
+
+![device-info](assets/device-info.png)
+
+Your MQTT broker is now ready to receive some physical device information!
+
+✏️  **Step 2: For the graded part, take a screenshot here of your device**
 
 ## Microcontroller
 
@@ -109,6 +146,8 @@ Here is the pinout table:
 |D11/SD2|GPIO9|
 |D12/SD3|GPIO10|
 
+✏️  **Step 3: For the graded part, take a picture of your wiring**
+
 ### Embedded Code
 
 #### Arduino IDE
@@ -130,5 +169,12 @@ To import them, you can go to **Sketch > Include Library > Add . ZIP library** a
 
 
 ## Connecting your ESP8266 to Scaleway IoT Hub
+
+Create a first program (arduino sketch) to connect to your IoT Hub:
+
+
+
+
+## Flow Programming with NodeRED
 
 
