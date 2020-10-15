@@ -118,7 +118,31 @@ To check your device information, just click on its name, you should see the fol
 
 Your MQTT broker is now ready to receive some physical device information!
 
+Now repeat this step to create a second device:
+
+
+![second-device](assets/second-device.png)
+
 ✏️  **Step 2: For the graded part, take a screenshot here of your device**
+
+## MQTT Explorer
+
+MQTT Explorer is a comprehensive MQTT client that provides a structured overview of your MQTT topics and makes working with devices/services on your broker dead-simple.
+
+To install a lightweight MQTT, just download it here: [http://mqtt-explorer.com/](http://mqtt-explorer.com/)
+
+Open MQTT Explorer and fill the following information:
+
+Host: `iot.fr-par.scw.cloud`
+Username: `your-device-id`
+
+![mqtt-explorer](assets/mqtt-explorer.png)
+
+Click on Connect, you should see the following screen:
+
+![mqtt-explorer-connected](assets/mqtt-explorer-connected.png)
+
+
 
 ## Microcontroller
 
@@ -153,6 +177,7 @@ Here is the pinout table:
 #### Arduino IDE
 
 Again, if you have not installed the Arduino IDE and set it up correctly to be compatible with the NodeMCU ESP8266 microcontroller, please check out the previous lab: [Embedded Programming - Lab 1](https://github.com/luisomoreau/Embedded-Programming-Lab-1).
+
 
 #### Libraries
 
