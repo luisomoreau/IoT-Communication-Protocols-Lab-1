@@ -46,11 +46,22 @@ In MQTT, clients identify themselves using a unique **ClientID**. If left empty 
 
 When a client connects to a Broker, it can choose to start a new session or resume the existing one. A session contains clients' subscriptions and pending messages.
 
-Topics are used to forward published messages to subscribers. A **topic** is a character string indicating the message's contents (example: `home/2ndfloor/kitchen/temperature`). With MQTT, by default, all subscribers receive a copy of the messages published with matching topics.
+Topics are used to forward published messages to subscribers. The term **topic** in MQTT refers to a simple UTF-8 string that the broker uses to dispatch messages to subscribers. Topics can consist of one or several _topic levels_, each of them separated by a forward slash - referenced as _topic level separator_.  A topic can be, for example, `fr/paris/weather/temperature` for the temperature in Paris, France.
+
+Topics are case sensitive and must contain at least one character. This means that `fr/Paris/Weather/Temperature` refers to a different topic than `fr/paris/weather/temperature`.
+
+![MQTT Topics](assets/mqtt-topics.png)
+
+Other valid examples for topics could be: 
+
+- `compute/instance/f97d95cd-b349-4bee-9ac8-92e12542d4e9/status`
+- `myhome/first-floor/bedroom/temperature`
+- `Bavaria/Munich/Marienplatz`
+
 
 ## Get started with Scaleway IoT Hub
 
-By now, you should have receive an invitation to join the Scaleway Classroom Organization:
+By now, you should have receive an invitation by email to join the Scaleway's `Classroom` Organization:
 
 ![Scaleway Invitation](assets/scaleway-invitation.png)
 
@@ -62,7 +73,7 @@ Go to the [IoT Hub](https://console.scaleway.com/iot-hub/hubs) tab:
 
 ![Scaleway IoT Hub Empty](assets/scaleway-iot-hub-empty.png)
 
-Create your first Hub and choose the Shared Plan:
+Create your first Hub and choose the `Free SHARED` Plan:
 
 ![Scaleway IoT Hub Create](assets/scaleway-iot-hub-create.png)
 
@@ -74,7 +85,48 @@ Click on `create`, your hub will be ready in few seconds:
 
 ## Microcontroller
 
+### Wiring
 
+Perform the following wiring:
+
+![wiring](assets/wiring.png)
+
+Here is the pinout table:
+
+| Pin Names on NodeMCU Development Kit| ESP8266 Internal GPIO Pin number|
+| ------------- |:-------------:| 
+|D0|GPIO16|
+|D1|GPIO5|
+|D2|GPIO4|
+|D3|GPIO0|
+|D4|GPIO2|
+|D5|GPIO14|
+|D6|GPIO12|
+|D7|GPIO13|
+|D8|GPIO15|
+|D9/RX|GPIO3|
+|D10/TX|GPIO1|
+|D11/SD2|GPIO9|
+|D12/SD3|GPIO10|
+
+### Embedded Code
+
+#### Arduino IDE
+
+Again, if you have not installed the Arduino IDE and set it up correctly to be compatible with the NodeMCU ESP8266 microcontroller, please check out the previous lab: [Embedded Programming - Lab 1](https://github.com/luisomoreau/Embedded-Programming-Lab-1).
+
+#### Libraries
+
+We will use the following Libraries:
+
+* [PubSubClient library](https://github.com/knolleary/pubsubclient/archive/master.zip): The PubSubClient library provides a client for doing simple publish/subscribe messaging with a server that supports MQTT (basically allows your ESP8266 to talk with your MQTT Broker).
+
+
+* [DHT sensor library](https://github.com/adafruit/DHT-sensor-library/archive/master.zip): The DHT sensor library provides an easy way of using any DHT sensor to read temperature and humidity with your ESP8266 or Arduino boards.
+
+They are included in this Github repository under the `libraries` folder. 
+
+To import them, you can go to **Sketch > Include Library > Add . ZIP library** and select the library
 
 
 ## Connecting your ESP8266 to Scaleway IoT Hub
