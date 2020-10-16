@@ -118,10 +118,10 @@ To check your device information, just click on its name, you should see the fol
 
 Your MQTT broker is now ready to receive some physical device information!
 
-Now repeat this step to create a second device:
+Now repeat this step to create a two other devices:
 
 
-![second-device](assets/second-device.png)
+![second-device](assets/three-devices.png)
 
 ✏️  **Step 2: For the graded part, take a screenshot here of your device**
 
