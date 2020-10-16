@@ -108,7 +108,7 @@ Click on `Add Devices`:
 
 ![create-device](assets/create-device.png)
 
-Before validating, choose the `Deny Insecure` option, we won't use devices certificates in the tutorial.
+Before validating, choose the `Allow Insecure` option, we won't use devices certificates in the tutorial.
 
 ![new-device-overview](assets/new-device-overview.png)
 
