@@ -157,6 +157,8 @@ We will use the following Libraries:
 
 * [PubSubClient library](https://github.com/knolleary/pubsubclient/archive/master.zip): The PubSubClient library provides a client for doing simple publish/subscribe messaging with a server that supports MQTT (basically allows your ESP8266 to talk with your MQTT Broker).
 
+* [Adafruit Sensor](https://github.com/adafruit/Adafruit_Sensor/archive/1.1.4.zip).
+
 
 * [DHT sensor library](https://github.com/adafruit/DHT-sensor-library/archive/master.zip): The DHT sensor library provides an easy way of using any DHT sensor to read temperature and humidity with your ESP8266 or Arduino boards.
 
@@ -592,4 +594,6 @@ You should see a nice dashboard:
 ![dashboard](assets/dashboard.png)
 
 ✏️  **Step 10: For the graded part, take a screenshot here**
+
+Before leaving, delete your IoT Hub and your KickStart application.
 
