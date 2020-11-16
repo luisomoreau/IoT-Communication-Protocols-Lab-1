@@ -293,7 +293,7 @@ Here we will use a LED and a DHT11 sensor. We will also need a small resistor. 3
 
 Perform the following wiring:
 
-![wiring](assets/wiring.png)
+![wiring](assets/wiring-2.png)
 
 Here is the pinout table:
 
@@ -342,7 +342,7 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 // DHT Sensor - GPIO 5 = D1 on ESP-12E NodeMCU board
-const int DHTPin = 15;
+const int DHTPin = 5;
 
 // Lamp - LED - GPIO 2 = D4 on ESP-12E NodeMCU board
 const int lamp = 2;
