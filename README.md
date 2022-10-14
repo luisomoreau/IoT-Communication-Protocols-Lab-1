@@ -555,6 +555,22 @@ Now to change the state of the LED, just public a new message (`on|off`) on the 
 
 ![serial console lamp](/assets/serial-console-lamp.png)
 
-✏️  **Step 11: For the graded part, add save your code as `second-program.ino`**
+✏️  **Step 11: For the graded part, save your code as `second-program.ino`**
 
+## Third program: Photobooth example with the ESP32-CAM AI-THINKER
 
+*Updated Oct 2022*
+
+Complete the following tutorial [https://github.com/luisomoreau/ESP32-cam-MQTT](https://github.com/luisomoreau/ESP32-cam-MQTT)
+
+✏️  **Step 12: For the graded part, save your code as `thrid-program.ino`**
+
+✏️  **Step 13: For the graded part, add a screenshot of your Object Storage bucket**
+
+✏️  **Step 14: For the graded part, add a picture taken from the ESP32-CAM**
+
+✏️  **Step 15: For the graded part, add a screenshot of the MQTT Explorer**
+
+✏️  **Step 16: For the graded part, add a screenshot of CameraWebServer and of the Serial Console**
+
+![CameraWebServer](/assets/camerawebserver.png)
