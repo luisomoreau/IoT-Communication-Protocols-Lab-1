@@ -392,15 +392,10 @@ void reconnect() {
 // Sets your mqtt broker and sets the callback function
 // The callback function is what receives messages and actually controls the LEDs
 void setup() {
-  pinMode(lamp, OUTPUT);
-  
   dht.begin();
-  
   Serial.begin(115200);
   setup_wifi();
   client.setServer(mqttServer, mqttPort);
-  client.setCallback(callback);
-
 }
 
 // For this project, you don't need to change anything in the loop function. Basically it ensures that you ESP is connected to your broker
@@ -482,7 +477,13 @@ Now to interact with an LED remotely, change a couple of things in your program.
 const int lamp = 2;
 ```
 
-* Subscribe the the `/room/lamp` topic
+* Add the `pinMode` the `setup()` function:
+
+```
+pinMode(lamp, OUTPUT);
+```
+
+* Create a callback function to subscribe to the `/room/lamp` topic
 
 ```
 // This functions is executed when a device publishes a message to a topic that your ESP8266 is subscribed to.
@@ -515,6 +516,12 @@ void callback(String topic, byte* message, unsigned int length) {
   Serial.println();
 }
 ```
+
+* Update the `setup()` function to reference the callback
+
+```
+client.setCallback(callback);
+``` 
 
 * Update the `reconnect` function to subscribe again to the `/room/lamp` topic
 
