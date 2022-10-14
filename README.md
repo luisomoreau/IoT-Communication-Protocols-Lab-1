@@ -1,6 +1,8 @@
 # IoT Communication Protocols - Lab 1
 
-Laboratory for IoT Communication Protocols classes - Using NodeMCU ESP8266, MQTT, Node-RED and [Scaleway](https://www.scaleway.com/en/elements/) - Version 2020
+Laboratory for IoT Communication Protocols classes - Using NodeMCU ESP8266, MQTT and [Scaleway](https://www.scaleway.com/en/elements/) - Version 2020
+
+*Updated Oct 2022*
 
 ## About this lab
 
@@ -15,7 +17,7 @@ Please see the previous lab for more information on how to use this microcontrol
 
 - MQTT as the data communication protocol to transmit information between the device and the cloud.
  
-- [Scaleway](https://www.scaleway.com/en/elements/) as a Cloud Provider with their MQTT managed message broker (the [IoT Hub](https://www.scaleway.com/en/iot-hub/)) and their [Development Instances](https://www.scaleway.com/en/virtual-instances/development/) to host the Node-RED application.
+- [Scaleway](https://www.scaleway.com/en/elements/) as a Cloud Provider with their MQTT managed message broker (the [IoT Hub](https://www.scaleway.com/en/iot-hub/)).
 
 ### Grades
 
@@ -286,7 +288,6 @@ You should also see the messages arriving in the MQTT Explorer tool:
 
 ## Control a LED and display temperature: 
 
-Flow Programming with Node-RED + Arduino
 Here we will use a LED and a DHT11 sensor. We will also need a small resistor. 330 ohms - higher resistors can also be used, it will just make the LED less bright.
 
 ### Wiring
@@ -344,9 +345,6 @@ PubSubClient client(espClient);
 // DHT Sensor - GPIO 5 = D1 on ESP-12E NodeMCU board
 const int DHTPin = 5;
 
-// Lamp - LED - GPIO 2 = D4 on ESP-12E NodeMCU board
-const int lamp = 2;
-
 // Initialize DHT sensor.
 DHT dht(DHTPin, DHTTYPE);
 
@@ -371,38 +369,6 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 }
 
-// This functions is executed when some device publishes a message to a topic that your ESP8266 is subscribed to
-// Change the function below to add logic to your program, so when a device publishes a message to a topic that 
-// your ESP8266 is subscribed you can actually do something
-void callback(String topic, byte* message, unsigned int length) {
-  Serial.print("Message arrived on topic: ");
-  Serial.print(topic);
-  Serial.print(". Message: ");
-  String messageTemp;
-  
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)message[i]);
-    messageTemp += (char)message[i];
-  }
-  Serial.println();
-
-  // Feel free to add more if statements to control more GPIOs with MQTT
-
-  // If a message is received on the topic room/lamp, you check if the message is either on or off. Turns the lamp GPIO according to the message
-  if(topic=="room/lamp"){
-      Serial.print("Changing Room lamp to ");
-      if(messageTemp == "on"){
-        digitalWrite(lamp, HIGH);
-        Serial.print("On");
-      }
-      else if(messageTemp == "off"){
-        digitalWrite(lamp, LOW);
-        Serial.print("Off");
-      }
-  }
-  Serial.println();
-}
-
 // This functions reconnects your ESP8266 to your MQTT broker
 // Change the function below if you want to subscribe to more topics with your ESP8266 
 void reconnect() {
@@ -412,9 +378,6 @@ void reconnect() {
     // Attempt to connect
     if (client.connect("ESP8266Client", mqttUser, mqttPassword )) {
       Serial.println("connected");  
-      // Subscribe or resubscribe to a topic
-      // You can subscribe to more topics (to control more LEDs in this example)
-      client.subscribe("room/lamp");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -502,98 +465,89 @@ You should see the following console output:
 
 ![console-2](assets/console-2.png)
 
-### Flow Programming
+Now open the MQTT explorer and check that the temperature and humidity have been sent to the MQTT broker and received by the MQTT explorer "device":
 
-Go back to your IoT Hub and go to the [Kickstart](https://console.scaleway.com/iot-hub/kickstarts/create) tab:
+![MQTT Explorer humidity and temperature](/assets/mqtt-explorer-step-9.png)
 
-![kickstart](assets/kickstart.png)
+ **Step 9: For the graded part, take a screenshot of the display in the MQTT explorer**
 
-Click on `+ Create a Kickstart`
+### Interact with the LED
 
-Fill the following form:
+Now to interact with an LED remotely, change a couple of things in your program.
 
-![kickstart-create](assets/create-kickstart.png)
+* Declare the LED:
 
-validate by clicking on `Create a Kickstart`.
+```
+// Lamp - LED - GPIO 2 = D4 on ESP-12E NodeMCU board
+const int lamp = 2;
+```
 
-Now wait few seconds until your application is getting ready. When ready, a green indicator will appear:
+* Subscribe the the `/room/lamp` topic
 
-![kickstart-overview](assets/kickstart-overview.png)
+```
+// This functions is executed when a device publishes a message to a topic that your ESP8266 is subscribed to.
+void callback(String topic, byte* message, unsigned int length) {
+  Serial.print("Message arrived on topic: ");
+  Serial.print(topic);
+  Serial.print(". Message: ");
+  String messageTemp;
+  
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)message[i]);
+    messageTemp += (char)message[i];
+  }
+  Serial.println();
 
-Now click on `Dashboard` and log with:
+  // Feel free to add more if statements to control more GPIOs with MQTT
 
-- Username: `admin`
-- Password: `your-password`
+  // If a message is received on the topic room/lamp, you check if the message is either on or off. Turns the lamp GPIO according to the message
+  if(topic=="room/lamp"){
+      Serial.print("Changing Room lamp to ");
+      if(messageTemp == "on"){
+        digitalWrite(lamp, HIGH);
+        Serial.print("On");
+      }
+      else if(messageTemp == "off"){
+        digitalWrite(lamp, LOW);
+        Serial.print("Off");
+      }
+  }
+  Serial.println();
+}
+```
 
-After you logged in successfully, this screen will be displayed:
+* Update the `reconnect` function to subscribe again to the `/room/lamp` topic
 
-![nodered-default](assets/nodered-default.png)
+```
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect("ESP8266Client", mqttUser, mqttPassword )) {
+      Serial.println("connected");  
+      // Subscribe or resubscribe to a topic
+      // You can subscribe to more topics (to control more LEDs in this example)
+      client.subscribe("room/lamp");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
+}
+```
 
-Start by adding some new type of nodes:
+Now to change the state of the LED, just public a new message (`on|off`) on the `/room/lamp` topic
 
-![new-nodes](assets/new-nodes.png)
+![MQTT Explorer humidity and temperature](/assets/mqtt-explorer-hum-temp.png)
 
-Find the `node-red-dashboard` and install it:
+✏️  **Step 10: For the graded part, take a screenshot of the Serial Console**
 
-![node-red-dashboard](assets/node-red-dashboard.png)
+![serial console lamp](/assets/serial-console-lamp.png)
 
-Create a Layout as followed:
+✏️  **Step 11: For the graded part, add save your code as `second-program.ino`**
 
-![layou](assets/layout.png)
-
-Add the following nodes to a new Flow:
-
-![flow](assets/flow.png)
-
-- switch – this will control the ESP8266 output
-- mqtt output node – this will publish a message to the ESP8266 accordingly to the switch state
-- 2x mqtt input nodes – this nodes will be subscribed to the temperature and humidity topics to receive sensor data from the ESP
-- chart – will display the temperature sensor readings
-- gauge – will display the humidity sensor readings
-
-
-**MQTT Out**
-Node-RED and the MQTT broker need to be connected. To connect the MQTT broker to Node-RED, double-click the MQTT output node. A new window pops up – as shown in figure below.
-Make sur it is already pre-configured, just add the `Topic` and the `Name`:
-
-![node-mqtt-out](assets/node-mqtt-out.png)
-
-**Switch**
-Now edit the switch node as below:
-
-![switch](assets/switch.png)
-
-
-**MQTT In**
-
-Update the MQTT in for the `Temperature` and the `Humidity`
-![mqtt-in](assets/mqtt-in.png)
-
-**Chart**
-
-![chart](assets/chart.png)
-
-**Gauge**
-
-![gauge](assets/gauge.png)
-
-**Link the nodes**
-
-![link](assets/link.png)
-
-Finally, click on deploy:
-
-![deploy](assets/deploy.png)
-
-✏️  **Step 9: For the graded part, take a screenshot here**
-
-Open a new browser tab with this url: `http://your-ip:1880/ui/`
-
-You should see a nice dashboard:
-
-![dashboard](assets/dashboard.png)
-
-✏️  **Step 10: For the graded part, take a screenshot here**
-
-Before leaving, delete your IoT Hub and your KickStart application.
 
